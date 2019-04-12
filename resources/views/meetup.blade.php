@@ -9,29 +9,37 @@
             <a href="#" onclick="switchVideo()">switchVideo</a>
             <div id="audioOutputSelectWrapper" style="display: none;">
             Change audio output device
-            <select id="audioOutputSelect" onchange="changeAudioOutput(this)"></select>
+            <select class="form-control" id="audioOutputSelect" onchange="changeAudioOutput(this)"></select>
             </div>
-
+            <video id="localVideo" autoplay="true"></video> 
+            <audio id="localAudio" autoplay="true" muted="true"></audio>
 
         </div>
     </div>
 </div>
 @section('js')
-<script src="https://10.0.3.201:5000/libs/lib-jitsi-meet.min.js?v=3322"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/strophe.js/1.2.16/strophe.min.js"></script>
-<script src="{{ asset('strophe.disco.min.js') }}"></script>
+<script src="{{ asset('js/strophe.disco.min.js') }}"></script>
+<script src="https://dev71.onlinetestingserver.com:5000/libs/lib-jitsi-meet.min.js?v=3322"></script>
 <script>
 /* global $, JitsiMeetJS */
 
 const options = {
     hosts: {
-        domain: 'jitsi-meet.example.com',
-        muc: 'conference.jitsi-meet.example.com' // FIXME: use XEP-0030
+        domain: 'beta.meet.jit.si',
+
+        muc: 'conference.beta.meet.jit.si', // FIXME: use XEP-0030
+        focus: 'focus.beta.meet.jit.si',
+        //domain: 'dev71.onlinetestingserver.com:5000',
+       // muc: 'conference.dev71.onlinetestingserver.com:5000' // FIXME: use XEP-0030
     },
-    bosh: '//jitsi-meet.example.com/http-bind', // FIXME: use xep-0156 for that
+
+    //bosh: 'https://jitsi-meet.example.com/http-bind',
+    bosh: 'https://dev71.onlinetestingserver.com:5000/http-bind', // FIXME: use xep-0156 for that
 
     // The name of client node advertised in XEP-0115 'c' stanza
-    clientNode: 'http://jitsi.org/jitsimeet'
+    //clientNode: 'https://dev71.onlinetestingserver.com:5000'
+    clientNode: 'http://jitsi.org/jitsimeet',
 };
 
 const confOptions = {
@@ -40,7 +48,7 @@ const confOptions = {
 
 let connection = null;
 let isJoined = false;
-let room = null;
+let room = 'powerfulorganismsteachbravely';
 
 let localTracks = [];
 const remoteTracks = {};
